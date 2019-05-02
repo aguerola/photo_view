@@ -166,10 +166,13 @@ class IgnorableChangeNotifier extends ChangeNotifier {
             exception: exception,
             stack: stack,
             library: 'Photoview library',
-            context: 'while dispatching notifications for $runtimeType',
-            informationCollector: (StringBuffer information) {
-              information.writeln('The $runtimeType sending notification was:');
-              information.write('  $this');
+            context: DiagnosticsNode.message('while dispatching notifications for $runtimeType'),
+            informationCollector: () {
+              return [
+                DiagnosticsNode.message(
+                    'The $runtimeType sending notification was:'),
+                DiagnosticsNode.message('  $this')
+              ];
             },
           ));
         }
@@ -193,6 +196,7 @@ class IgnorableValueNotifier<T> extends IgnorableChangeNotifier
   @override
   T get value => _value;
   T _value;
+
   set value(T newValue) {
     if (_value == newValue) {
       return;
